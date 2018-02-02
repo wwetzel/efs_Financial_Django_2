@@ -15,9 +15,9 @@ def home(request):
 #################
 @login_required
 def customer_list(request):
-   customer = Customer.objects.filter(created_date__lte=timezone.now())
+   customers = Customer.objects.filter(created_date__lte=timezone.now())
    return render(request, 'portfolio/customer_list.html',
-                 {'customers': customer})
+                 {'customers': customers})
 
 
 @login_required
@@ -124,10 +124,12 @@ def investment_edit(request, pk):
             investment.updated_date = timezone.now()
             investment.save()
             investments = Investment.objects.filter(putchase_date__lte=timezone.now())
-            return render(request, 'portfolio/investment_list.html', {'investments': investments})
+            print('ay')
+            return render(request, 'portfolio/investment_edit.html', {'investments': investments})
         else:
-            form = StockForm(instance=stock)
-            return render(request, 'portfolio/investment_list.html', {'investments': investments})
+            print('oh')
+            form = InvestmentForm(instance=investment)
+            return render(request, 'portfolio/investment_edit.html', {'investments': investments})
 
 @login_required
 def investment_delete(request, pk):
