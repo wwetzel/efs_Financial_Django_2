@@ -28,7 +28,7 @@ class Customer(models.Model):
 class Investment(models.Model):
     customer = models.ForeignKey(Customer, related_name='investments')
     category = models.CharField(max_length=50)
-    description = models.CharField(max_length=50)
+    description = models.CharField(max_length=200)
     acquired_value = models.DecimalField(max_digits=10, decimal_places=2)
     acquired_date = models.DateField(default=timezone.now)
     recent_value = models.DecimalField(max_digits=10, decimal_places=2)
@@ -60,7 +60,7 @@ class Stock(models.Model):
         self.recent_date = timezone.now()
         self.save()
 
-    def _str__(self):
+    def __str__(self):
         return str(self.customer)
 
     def initial_stock_value(self):
