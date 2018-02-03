@@ -90,18 +90,18 @@ def stock_edit(request, pk):
 
 @login_required
 def stock_delete(request, pk):
-   stock = get_object_or_404(Stock, pk=pk)
-   stock.delete()
-   stocks = Stock.objects.filter(purchase_date__lte=timezone.now())
-   return render(request, 'portfolio/stock_list.html', {'stocks': stocks})
+    stock = get_object_or_404(Stock, pk=pk)
+    stock.delete()
+    stocks = Stock.objects.filter(purchase_date__lte=timezone.now())
+    return render(request, 'portfolio/stock_list.html', {'stocks': stocks})
 
 ###################
 ### INVESTMENTS ###
 ###################
 @login_required
 def investment_list(request):
-   investments = Investment.objects.filter(acquired_date__lte=timezone.now())
-   return render(request, 'portfolio/investment_list.html', {'investments': investments})
+    investments = Investment.objects.filter(recent_date__lte=timezone.now())
+    return render(request, 'portfolio/investment_list.html', {'investments': investments})
 
 @login_required
 def investment_new(request):
@@ -111,8 +111,11 @@ def investment_new(request):
             investment = form.save(commit=False)
             investment.created_date = timezone.now()
             investment.save()
-            investments = Investment.objects.filter(purchase_date__lte=timezone.now())
+            investments = Investment.objects.filter(recent_date__lte=timezone.now())
             return render(request, 'portfolio/investment_list.html', {'investments': investments})
+    else:
+        form = InvestmentForm
+    return render(request, 'portfolio/investment_new.html', {'form': form})
 
 @login_required
 def investment_edit(request, pk):
@@ -123,21 +126,18 @@ def investment_edit(request, pk):
             investment = form.save()
             investment.updated_date = timezone.now()
             investment.save()
-            investments = Investment.objects.filter(putchase_date__lte=timezone.now())
-            print('ay')
-            return render(request, 'portfolio/investment_edit.html', {'investments': investments})
-        else:
-            print('oh')
-            form = InvestmentForm(instance=investment)
-            return render(request, 'portfolio/investment_edit.html', {'investments': investments})
+            investments = Investment.objects.filter(recent_date__lte=timezone.now())
+            return render(request, 'portfolio/investment_list.html', {'investments': investments})
+    else:
+        form = InvestmentForm(instance=investment)
+    return render(request, 'portfolio/investment_edit.html', {'form': form})
 
 @login_required
 def investment_delete(request, pk):
     investment = get_object_or_404(Investment, pk=pk)
     investment.delete()
-    investments = Investment.objects.filter(purchase_date__lte=timezone.now())
+    investments = Investment.objects.filter(recent_date__lte=timezone.now())
     return render(request, 'portfolio/investment_list.html', {'investments': investments})
-
 
 @login_required
 def portfolio(request,pk):
