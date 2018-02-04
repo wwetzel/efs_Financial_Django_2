@@ -1,4 +1,4 @@
-#!/Users/WillieWetz/Documents/efs_Financial_App/bin/python
+#!/Users/WillieWetz/Documents/efs_Financial_App/venv/bin/python
 from django.core import management
 
 if __name__ == "__main__":
