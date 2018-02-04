@@ -19,6 +19,20 @@ def customer_list(request):
    return render(request, 'portfolio/customer_list.html',
                  {'customers': customers})
 
+@login_required
+def customer_new(request):
+   if request.method == "POST":
+       form = CustomerForm(request.POST)
+       if form.is_valid():
+           customer = form.save(commit=False)
+           customer.created_date = timezone.now()
+           customer.save()
+           customers = Customer.objects.filter(created_date__lte=timezone.now())
+           return render(request, 'portfolio/customer_list.html',
+                         {'customers': customers})
+   else:
+       form = CustomerForm()
+   return render(request, 'portfolio/customer_new.html', {'form': form})
 
 @login_required
 def customer_edit(request, pk):
@@ -38,7 +52,6 @@ def customer_edit(request, pk):
        form = CustomerForm(instance=customer)
    return render(request, 'portfolio/customer_edit.html', {'form': form})
 
-
 @login_required
 def customer_delete(request, pk):
    customer = get_object_or_404(Customer, pk=pk)
@@ -52,7 +65,6 @@ def customer_delete(request, pk):
 def stock_list(request):
    stocks = Stock.objects.filter(purchase_date__lte=timezone.now())
    return render(request, 'portfolio/stock_list.html', {'stocks': stocks})
-
 
 @login_required
 def stock_new(request):
@@ -70,7 +82,6 @@ def stock_new(request):
        # print("Else")
    return render(request, 'portfolio/stock_new.html', {'form': form})
 
-
 @login_required
 def stock_edit(request, pk):
    stock = get_object_or_404(Stock, pk=pk)
@@ -86,7 +97,6 @@ def stock_edit(request, pk):
    else:
        form = StockForm(instance=stock)
    return render(request, 'portfolio/stock_edit.html', {'form': form})
-
 
 @login_required
 def stock_delete(request, pk):
@@ -151,3 +161,7 @@ def portfolio(request,pk):
    return render(request, 'portfolio/portfolio.html', {'customers': customers, 'investments': investments,
                                                       'stocks': stocks,
                                                       'sum_acquired_value': sum_acquired_value,})
+
+@login_required
+def profile_temp(request):
+    return render(request, 'portfolio/profile_temp.html')
