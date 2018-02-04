@@ -5,6 +5,4 @@ myvenv
 db.sqlite3
 /static
 .DS_Store
-/bin
-/lib
 pip-selfcheck.json
