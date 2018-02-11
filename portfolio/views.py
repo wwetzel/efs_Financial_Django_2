@@ -182,9 +182,6 @@ def profile_temp(request):
 def portfolio(request, pk):
     customer = get_object_or_404(Customer, pk=pk)
     customers = Customer.objects.filter(created_date__lte=timezone.now())
-    investments = Investment.objects.filter(customer=pk)
-    sum_acquired_value = Investment.objects.filter(customer=pk).aggregate(Sum('acquired_value'))
-    sum_recent_value = Investment.objects.filter(customer=pk).aggregate(Sum('recent_value'))
 
     # STOCKS
     stocks = Stock.objects.filter(customer=pk)
@@ -196,13 +193,26 @@ def portfolio(request, pk):
         sum_current_stocks_value += stock.current_stock_value()
         sum_of_initial_stocks_value += stock.initial_stock_value()
 
+    # INVESTMENTS
+    investments = Investment.objects.filter(customer=pk)
+    sum_current_investments_value = 0
+    sum_of_initial_investments_value = 0
+    for investment in investments:
+        sum_current_investments_value += investment.recent_value
+        sum_of_initial_investments_value += investment.acquired_value
+
+    portfolio_initial_investments = sum_of_initial_stocks_value + sum_of_initial_investments_value
+    portfolio_current_investments = sum_current_stocks_value + float(sum_current_investments_value)
+
 
     return render(request, 'portfolio/portfolio.html', {'customers': customers, 'investments': investments,
                                                         'stocks': stocks,
-                                                        'sum_acquired_value': sum_acquired_value,
-                                                        'sum_recent_value': sum_recent_value,
                                                         'sum_current_stocks_value': sum_current_stocks_value,
-                                                        'sum_of_initial_stocks_value': sum_of_initial_stocks_value})
+                                                        'sum_of_initial_stocks_value': sum_of_initial_stocks_value,
+                                                        'sum_current_investments_value':sum_current_investments_value,
+                                                        'sum_of_initial_investments_value':sum_of_initial_investments_value,
+                                                        'portfolio_initial_investments':portfolio_initial_investments,
+                                                        'portfolio_current_investments':portfolio_current_investments,})
 
 class CustomerList(APIView):
     def get(self, request):

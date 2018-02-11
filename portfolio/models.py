@@ -77,7 +77,7 @@ class Stock(models.Model):
         mkt_dt = (json_data["Meta Data"]["3. Last Refreshed"])
         open_price = float(json_data["Time Series (1min)"][mkt_dt]["1. open"])
         share_value = open_price
-        return share_value
+        return round(share_value, 2)
 
     def current_stock_value(self):
         symbol_f = str(self.symbol)
@@ -88,7 +88,7 @@ class Stock(models.Model):
         mkt_dt = (json_data["Meta Data"]["3. Last Refreshed"])
         open_price = float(json_data["Time Series (1min)"][mkt_dt]["1. open"])
         share_value = open_price
-        return float(share_value) * float(self.shares)
+        return round((float(share_value) * float(self.shares)), 2)
 
 
     def valueAccrued(self):
