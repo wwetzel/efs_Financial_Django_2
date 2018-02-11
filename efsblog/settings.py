@@ -75,6 +75,7 @@ TEMPLATES = [
         },
     },
 ]
+TEMPLATE_STRING_IF_INVALID = '**INVALID**'
 
 WSGI_APPLICATION = 'efsblog.wsgi.application'
 
@@ -153,3 +154,7 @@ try:
     from .local_settings import *
 except ImportError:
     pass
+
+# Added to allow print() statement testing
+NOSE_ARGS = ['--nocapture',
+             '--nologcapture',]

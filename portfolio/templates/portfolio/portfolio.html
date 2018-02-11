@@ -1,57 +1,86 @@
+{% extends 'portfolio/base.html' %}
+
 {% load staticfiles %}
 {% load mathfilters %}
-<!DOCTYPE html>
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-<link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
 
-<html lang="en">
-<head>
-    <link rel="stylesheet" href="{% static 'css/portfolio.css' %}">
-    <meta charset="UTF-8">
-    <title>Eagle Financial Services</title>
-</head>
-<body>
-<div class="container">
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-primary">
+{% block content %}
+    <!DOCTYPE html>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+    <html lang="en">
+    <head>
+        <link rel="stylesheet" href="{% static 'css/portfolio.css' %}">
+        <meta charset="UTF-8">
+        <title>Eagle Financial Services</title>
+    </head>
+    <body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
                 <div class="panel-heading">Welcome!</div>
                 <div class="panel-body">
-                    Eagle Financial Services, your Midwest Financial Services Partner.
+                    Eagle Financial Services, your Midwest Financial Partner.
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="row">
-    <h2 style="padding-left: 15Px">Customer Portfolio</h2>
-</div>
-
-
-
-<div class="row">
-    <h2 style="padding-left: 15Px">Stocks Information</h2>
-</div>
-<div>
-    <table class="table table-striped table-bordered table-hover">
-        <thead>
-        <tr class="bg-info">
-
-            <th>Cust ID</th>
-
-        </tr>
-        </thead>
-        <tbody>
-        {% for stock in stocks %}
-            <tr>
-                <td>{{ stock.customer }}</td>
-
-
+    <div clas="row">
+        <h2 style="padding-left: 40Px">Customer Portfolio</h2>
+    </div>
+    <div clas="row">
+        <h2 style="padding-left: 15Px">Stocks</h2>
+    </div>
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+            <tr class="bg-info">
+                <th>Customer</th>
+                <th>Symbol</th>
+                <th>Name</th>
+                <th>Shares</th>
+                <th>Initial Stock Price</th>
+                <th>Initial Stock Value</th>
+                <th>Current Stock Price</th>
+                <th>Current Stock Value</th>
+                <th>Results</th>
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-</div>
-
-
+            </thead>
+            <tbody>
+            {% for stock in stocks %}
+                <tr>
+                    <td>{{ stock.customer }}</td>
+                    <td>{{ stock.symbol }}</td>
+                    <td>{{ stock.name }}</td>
+                    <td>{{ stock.shares }}</td>
+                    <td>{{ stock.purchase_price }}</td>
+                    <td>{{ stock.initial_stock_value }}</td>
+                    <td>{{ stock.current_stock_price }}</td>
+                    <td>{{ stock.current_stock_value }}</td>
+                    {% with start=stock.current_stock_value end=stock.initial_stock_value %}
+                    <td>{{ start|sub:end }}</td>
+                    {% endwith %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+            <tr class="bg-info">
+                <th>Total of Initial Stocks</th>
+                <th>Total of Current Stocks</th>
+                <th>Results</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ sum_of_initial_stocks_value }}</td>
+                    <td>{{ sum_current_stocks_value }}</td>
+                    {% with start=sum_current_stocks_value end=sum_of_initial_stocks_value %}
+                    <td>{{ start|sub:end }}</td>
+                    {% endwith %}
+                </tr>
+            </tbody>
+        </table>
+    </body>
+{% endblock %}
