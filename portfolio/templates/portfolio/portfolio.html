@@ -6,23 +6,26 @@
 {% block content %}
     <!DOCTYPE html>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-    <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <!--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">-->
+    <!--<link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">-->
 
     <html lang="en">
     <head>
         <link rel="stylesheet" href="{% static 'css/portfolio.css' %}">
         <meta charset="UTF-8">
         <title>Eagle Financial Services</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     </head>
     <body>
     <div class="container">
         <div class="row">
-            <div class="col-md-10 col-md-offset-1">
+            <div class="col-md-10 col-md-offset-1">               <div class="panel panel-primary">
+                <!--<div class="panel panel-primary">-->
                 <div class="panel-heading">Welcome!</div>
                 <div class="panel-body">
                     Eagle Financial Services, your Midwest Financial Partner.
                 </div>
+            </div>
             </div>
         </div>
     </div>
@@ -79,7 +82,7 @@
                     <td>{{ stock.initial_stock_value }}</td>
                     <td>{{ stock.current_stock_price.0 }}</td>
                     <td>{{ stock.current_stock_price.1 }}</td>
-                    {% with start=stock.current_stock_value end=stock.initial_stock_value %}
+                    {% with start=stock.current_stock_price.1 end=stock.initial_stock_value %}
                     <td>{{ start|sub:end }}</td>
                     {% endwith %}
                 </tr>

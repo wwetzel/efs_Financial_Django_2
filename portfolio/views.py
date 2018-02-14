@@ -191,7 +191,10 @@ def portfolio(request, pk):
     # Loop through each stock and add the value to the total
     for stock in stocks:
         #sum_current_stocks_value += stock.current_stock_value()
-        sum_current_stocks_value += stock.current_stock_price()[1]
+        try:
+            sum_current_stocks_value += stock.current_stock_price()[1]
+        except TypeError:
+            pass
         sum_of_initial_stocks_value += stock.initial_stock_value()
 
     # INVESTMENTS
