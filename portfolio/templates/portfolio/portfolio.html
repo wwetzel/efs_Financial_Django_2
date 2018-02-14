@@ -77,8 +77,8 @@
                     <td>{{ stock.shares }}</td>
                     <td>{{ stock.purchase_price }}</td>
                     <td>{{ stock.initial_stock_value }}</td>
-                    <td>{{ stock.current_stock_price }}</td>
-                    <td>{{ stock.current_stock_value }}</td>
+                    <td>{{ stock.current_stock_price.0 }}</td>
+                    <td>{{ stock.current_stock_price.1 }}</td>
                     {% with start=stock.current_stock_value end=stock.initial_stock_value %}
                     <td>{{ start|sub:end }}</td>
                     {% endwith %}
