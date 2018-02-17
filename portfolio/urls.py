@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^investment/create/$', views.investment_new, name='investment_new'),
     url(r'^accounts/profile/$', views.profile_temp, name='profile_temp'),
     url(r'^customers_json/', views.CustomerList.as_view()),
+    url(r'^portfolio_pdf/(?P<pk>\d+)/$', views.portfolio_pdf, name='portfolio_pdf'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

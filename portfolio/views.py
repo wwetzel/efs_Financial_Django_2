@@ -9,6 +9,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import CustomerSerializer
+from reportlab.pdfgen import canvas
+from django.http import HttpResponse
+import datetime
 
 def home(request):
    return render(request, 'portfolio/home.html',
@@ -177,6 +180,26 @@ def portfolio(request, pk):
 @login_required
 def profile_temp(request):
     return render(request, 'portfolio/profile_temp.html')
+''' SAFETY
+@login_required
+def portfolio(request, pk):
+    customer = get_object_or_404(Customer, pk=pk)
+    customers = Customer.objects.filter(created_date__lte=timezone.now())
+
+    # STOCKS
+    stocks = Stock.objects.filter(customer=pk)
+    # Initialize the value of the stocks
+    sum_current_stocks_value = 0
+    sum_of_initial_stocks_value = 0
+    # Loop through each stock and add the value to the total
+    for stock in stocks:
+        #sum_current_stocks_value += stock.current_stock_value()
+        try:
+            sum_current_stocks_value += stock.current_stock_price()[1]
+        except TypeError:
+            pass
+        sum_of_initial_stocks_value += stock.initial_stock_value()
+'''
 
 @login_required
 def portfolio(request, pk):
@@ -209,14 +232,58 @@ def portfolio(request, pk):
     portfolio_current_investments = sum_current_stocks_value + float(sum_current_investments_value)
 
 
-    return render(request, 'portfolio/portfolio.html', {'customers': customers, 'investments': investments,
+    return render(request, 'portfolio/portfolio.html', {'customers': customers,
+                                                        'investments': investments,
                                                         'stocks': stocks,
+                                                        'customer' :customer,
                                                         'sum_current_stocks_value': sum_current_stocks_value,
                                                         'sum_of_initial_stocks_value': sum_of_initial_stocks_value,
                                                         'sum_current_investments_value':sum_current_investments_value,
                                                         'sum_of_initial_investments_value':sum_of_initial_investments_value,
                                                         'portfolio_initial_investments':portfolio_initial_investments,
                                                         'portfolio_current_investments':portfolio_current_investments,})
+@login_required
+def portfolio_pdf(request, pk):
+    ####
+    response = HttpResponse(content_type='application/pdf')
+
+    customer = get_object_or_404(Customer, pk=pk)
+    customerName = customer.name
+    now = datetime.datetime.now()
+    now = now.strftime("%Y-%m-%d %H:%M")
+    filename = str(customerName) + '_Portfolio_' + now + '.pdf'
+    response['Content-Disposition'] = 'attachment; filename=' + filename
+
+    # STOCKS
+    stocks = Stock.objects.filter(customer=pk)
+    # Initialize the value of the stocks
+    sum_current_stocks_value = 0
+    sum_of_initial_stocks_value = 0
+    # Loop through each stock and add the value to the total
+    for stock in stocks:
+        #sum_current_stocks_value += stock.current_stock_value()
+        try:
+            sum_current_stocks_value += stock.current_stock_price()[1]
+        except TypeError:
+            pass
+        sum_of_initial_stocks_value += stock.initial_stock_value()
+
+    # INVESTMENTS
+    investments = Investment.objects.filter(customer=pk)
+    sum_current_investments_value = 0
+    sum_of_initial_investments_value = 0
+    for investment in investments:
+        sum_current_investments_value += investment.recent_value
+        sum_of_initial_investments_value += investment.acquired_value
+
+    portfolio_initial_investments = sum_of_initial_stocks_value + sum_of_initial_investments_value
+    portfolio_current_investments = sum_current_stocks_value + float(sum_current_investments_value)
+
+    p = canvas.Canvas(response)
+    p.drawString(100,100,"Hello world.")
+    p.showPage()
+    p.save()
+    return response
 
 class CustomerList(APIView):
     def get(self, request):
