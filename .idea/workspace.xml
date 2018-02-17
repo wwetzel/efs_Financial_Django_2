@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4e400e8b-741e-4d81-8b4e-e6dc9a2dcf1a" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/portfolio/static/css/portfolio.css" afterPath="$PROJECT_DIR$/portfolio/static/css/portfolio.css" />
-      <change beforePath="$PROJECT_DIR$/portfolio/templates/portfolio/portfolio.html" afterPath="$PROJECT_DIR$/portfolio/templates/portfolio/portfolio.html" />
-      <change beforePath="$PROJECT_DIR$/portfolio/urls.py" afterPath="$PROJECT_DIR$/portfolio/urls.py" />
       <change beforePath="$PROJECT_DIR$/portfolio/views.py" afterPath="$PROJECT_DIR$/portfolio/views.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -15,7 +12,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.4945227">
+    <splitter split-orientation="horizontal" split-proportion="0.5029762">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="urls.py" pinned="false" current-in-tab="true">
@@ -91,8 +88,8 @@
           <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/portfolio/models.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1230">
-                  <caret line="82" column="65" lean-forward="false" selection-start-line="82" selection-start-column="65" selection-end-line="82" selection-end-column="65" />
+                <state relative-caret-position="323">
+                  <caret line="81" column="24" lean-forward="true" selection-start-line="81" selection-start-column="24" selection-end-line="81" selection-end-column="24" />
                   <folding>
                     <element signature="e#0#28#0" expanded="true" />
                     <marker date="1518580412000" expanded="true" signature="2413:2712" ph="..." />
@@ -139,8 +136,8 @@
           <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/portfolio/views.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="166">
-                  <caret line="253" column="62" lean-forward="false" selection-start-line="253" selection-start-column="62" selection-end-line="253" selection-end-column="62" />
+                <state relative-caret-position="1582">
+                  <caret line="306" column="62" lean-forward="true" selection-start-line="306" selection-start-column="62" selection-end-line="306" selection-end-column="62" />
                   <folding>
                     <element signature="e#0#33#0" expanded="true" />
                   </folding>
@@ -179,10 +176,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-118" />
-    <option name="y" value="88" />
-    <option name="width" value="1515" />
-    <option name="height" value="766" />
+    <option name="x" value="176" />
+    <option name="y" value="137" />
+    <option name="width" value="1218" />
+    <option name="height" value="601" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -266,10 +263,10 @@
     <configuration />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-118" y="88" width="1515" height="766" extended-state="0" />
+    <frame x="176" y="137" width="1218" height="601" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12650603" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15789473" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -480,8 +477,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/portfolio/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1230">
-          <caret line="82" column="65" lean-forward="false" selection-start-line="82" selection-start-column="65" selection-end-line="82" selection-end-column="65" />
+        <state relative-caret-position="323">
+          <caret line="81" column="24" lean-forward="true" selection-start-line="81" selection-start-column="24" selection-end-line="81" selection-end-column="24" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
             <marker date="1518580412000" expanded="true" signature="2413:2712" ph="..." />
@@ -491,8 +488,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/portfolio/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="166">
-          <caret line="253" column="62" lean-forward="false" selection-start-line="253" selection-start-column="62" selection-end-line="253" selection-end-column="62" />
+        <state relative-caret-position="1582">
+          <caret line="306" column="62" lean-forward="true" selection-start-line="306" selection-start-column="62" selection-end-line="306" selection-end-column="62" />
           <folding>
             <element signature="e#0#33#0" expanded="true" />
           </folding>

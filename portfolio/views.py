@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .serializers import CustomerSerializer
 from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter, A4
 from django.http import HttpResponse
 import datetime
 
@@ -255,6 +256,7 @@ def portfolio_pdf(request, pk):
     response['Content-Disposition'] = 'attachment; filename=' + filename
 
     # STOCKS
+    pdfStockString = '### STOCKS ###\n'
     stocks = Stock.objects.filter(customer=pk)
     # Initialize the value of the stocks
     sum_current_stocks_value = 0
@@ -264,23 +266,63 @@ def portfolio_pdf(request, pk):
         #sum_current_stocks_value += stock.current_stock_value()
         try:
             sum_current_stocks_value += stock.current_stock_price()[1]
+            pdfStockString += 'Stock: ' + stock.name + '\n'
+            pdfStockString += '    IP: '
+            pdfStockString += str(stock.purchase_price)
+            pdfStockString += '\n'
+            pdfStockString += '    CP: '
+            pdfStockString += str(stock.current_stock_price()[0])
+            pdfStockString += '\n'
+            stockInitialValue = stock.purchase_price * stock.shares
+            pdfStockString += 'Initial Value: ' + str(stockInitialValue) + '\n'
+            pdfStockString += 'Current Value: ' + str(stock.current_stock_price()[1]) + '\n\n'
         except TypeError:
             pass
         sum_of_initial_stocks_value += stock.initial_stock_value()
-
+    pdfStockString += '# Stock Results'
+    pdfStockString += '\nInital Stocks Value: ' + str(sum_of_initial_stocks_value)
+    pdfStockString += '\nCurrent Stocks Value: ' + str(sum_current_stocks_value) + '\n'
+    pdfStockString += 'Gains/Losses: ' + str(float(sum_current_stocks_value) - float(sum_of_initial_stocks_value)) + '\n\n\n'
     # INVESTMENTS
+    pdfInvestmentString = '### INVESTMENTS ###\n'
     investments = Investment.objects.filter(customer=pk)
     sum_current_investments_value = 0
     sum_of_initial_investments_value = 0
     for investment in investments:
         sum_current_investments_value += investment.recent_value
         sum_of_initial_investments_value += investment.acquired_value
+        pdfInvestmentString += 'Investment: ' + investment.description + '\n'
+        pdfInvestmentString += 'Acquired Value: ' + str(investment.acquired_value) + '\n'
+        pdfInvestmentString += 'Recent Value: ' + str(investment.recent_value) + '\n\n'
+    pdfInvestmentString += '# Investment Results'
+    pdfInvestmentString += '\nInitial Investments Value: ' + str(sum_of_initial_investments_value)
+    pdfInvestmentString += '\nCurrent Investments Value: ' + str(sum_current_investments_value)
+    pdfInvestmentString += '\nGains/Losses: ' + str(float(sum_current_investments_value) - float(sum_of_initial_investments_value)) + '\n'
 
     portfolio_initial_investments = sum_of_initial_stocks_value + sum_of_initial_investments_value
     portfolio_current_investments = sum_current_stocks_value + float(sum_current_investments_value)
 
-    p = canvas.Canvas(response)
-    p.drawString(100,100,"Hello world.")
+
+    pdfString = 'ADVISOR NOTES: '
+    pdfString += 'At this rate you will NEVER retire, consider taking up smoking or skydiving.\n\n'
+    pdfString += 'Customer Name: ' + customerName + '\n\n'
+    pdfString += pdfStockString
+    pdfString += pdfInvestmentString
+    pdfString += '\n\n### TOTALS ###\n'
+    pdfString += 'Initial Portfolio Value: ' + str(portfolio_initial_investments) + '\n'
+    pdfString += 'Current Portfolio Value: ' + str(portfolio_current_investments) + '\n'
+    pdfString += 'Gains/Losses: ' + str(float(portfolio_current_investments) - float(portfolio_initial_investments)) + '\n'
+    pdfString += '\n\nTHANKS FOR CHOOSING EAGLE FINANCIAL'
+    pdfString += '\nQUESTIONS? - CALL 253-652-4543'
+    pdfString += '\nBUSINESS HOURS Monday 1pm-2pm'
+    p = canvas.Canvas(response, pagesize=letter)
+    t = p.beginText()
+    #t.setFont()
+    t.setTextOrigin(50, 700)
+    t.textLines(pdfString)
+    width, height = letter
+    #p.drawString(100,500, pdfString)
+    p.drawText(t)
     p.showPage()
     p.save()
     return response
